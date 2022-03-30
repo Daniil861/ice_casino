@@ -773,7 +773,7 @@ body._loaded {
   top: 1.875rem;
 }
 .bonus-main__monets img:nth-child(4) {
-  left: 1.25rem;
+  left: -0.625rem;
   top: 2.5rem;
 }
 .bonus-main__cherry {
@@ -988,16 +988,16 @@ body._loaded {
 }
 @-webkit-keyframes move_hammer {
   0% {
-    -webkit-transform: rotate(0deg);
+    -webkit-transform: rotate(90deg);
   }
   40% {
-    -webkit-transform: rotate(0deg);
+    -webkit-transform: rotate(50deg) translateX(30px);
   }
   80% {
-    -webkit-transform: rotate(1deg);
+    -webkit-transform: rotate(120deg) translateX(-50px);
   }
   100% {
-    -webkit-transform: rotate(90deg);
+    -webkit-transform: rotate(5deg);
   }
 }
 @keyframes fly_monets {
