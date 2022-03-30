@@ -417,12 +417,18 @@
     let money = document.querySelector(".money");
     let timerId;
     let move_right;
-    if (document.querySelector(".bonus")) timerId = setInterval((() => {
-        create_ice_cub();
-    }), 3e3);
+    let current_coordinate;
+    const breakpoint = window.matchMedia("(min-width:400px)");
+    if (true === breakpoint.matches) current_coordinate = 180; else current_coordinate = 150;
     if (sessionStorage.getItem("money")) {
         if (money) money.textContent = sessionStorage.getItem("money");
     } else sessionStorage.setItem("money", 1e4);
+    if (document.querySelector(".bonus")) {
+        get_ways_mini_game();
+        timerId = setInterval((() => {
+            create_ice_cub();
+        }), getRandomArbitrary(2e3, 3e3));
+    }
     document.addEventListener("click", (e => {
         let targetElement = e.target;
         if (targetElement.closest(".acces-preloader__button")) {
@@ -433,16 +439,16 @@
         if (targetElement.closest(".bottom-bonus__button")) {
             minus_money(10);
             move_hammer();
-            hold_button(".bottom-bonus__button", 1200);
+            hold_button(".bottom-bonus__button", 1500);
             setTimeout((() => {
-                let block = get_elem_for_coord(150);
+                let block = get_elem_for_coord(current_coordinate);
                 if (block.closest(".bonus-main__cub")) {
                     block.closest(".bonus-main__cub").classList.add("_anim");
                     let bonus_rand = get_random_bonus();
                     if (73 == bonus_rand) {
                         get_bonus_cherry();
-                        get_bonus_text(1e3);
-                        add_money(1e3);
+                        get_bonus_text(500);
+                        add_money(500);
                     } else if (0 == bonus_rand) get_bonus_text(0); else {
                         get_bonus_text(bonus_rand);
                         get_bonus_money();
@@ -450,9 +456,6 @@
                     }
                 }
                 get_ways_mini_game();
-                let cub_box = document.querySelectorAll(".bonus-main__cub");
-                console.log(cub_box);
-                cub_box.forEach((el => {}));
             }), 1e3);
         }
     }));
@@ -506,12 +509,10 @@
         }), getRandomArbitrary(25, 70));
     }
     function get_elem_for_coord(x, y = 450) {
-        let block = document.elementFromPoint(x, y);
-        console.log(block);
-        return block;
+        return document.elementFromPoint(x, y);
     }
     function get_random_bonus() {
-        let rand_arr = [ 0, 100, 10, 0, 50, 150, 10, 10, 250, 500, 73, 15 ];
+        let rand_arr = [ 0, 100, 10, 0, 50, 30, 10, 10, 80, 150, 73, 15 ];
         return rand_arr[Math.floor(Math.random() * (12 - 0) + 0)];
     }
     function get_ways_mini_game() {
@@ -524,10 +525,10 @@
         let monet_2 = document.createElement("img");
         let monet_3 = document.createElement("img");
         let monet_4 = document.createElement("img");
-        monet_1.setAttribute("src", "img/mini-game/cent-1.svg");
-        monet_2.setAttribute("src", "img/mini-game/cent-2.svg");
-        monet_3.setAttribute("src", "img/mini-game/cent-3.svg");
-        monet_4.setAttribute("src", "img/mini-game/cent-4.svg");
+        monet_1.setAttribute("src", "img/mini-game/cent-4.svg");
+        monet_2.setAttribute("src", "img/mini-game/cent-3.svg");
+        monet_3.setAttribute("src", "img/mini-game/cent-2.svg");
+        monet_4.setAttribute("src", "img/mini-game/cent-1.svg");
         block.append(monet_1, monet_2, monet_3, monet_4);
         document.querySelector(".bonus-main").append(block);
         setTimeout((() => {
@@ -554,11 +555,11 @@
             block.remove();
         }), 1500);
     }
-    var minTime = 500;
-    var maxTime = 2e3;
     function getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
+    var minTime = 500;
+    var maxTime = 2e3;
     var casino1 = document.querySelector("#slot1");
     var casino2 = document.querySelector("#slot2");
     var casino3 = document.querySelector("#slot3");
